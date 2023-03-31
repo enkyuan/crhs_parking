@@ -108,7 +108,8 @@ class _ConfirmPageState extends State<ConfirmPage> {
                     'Confirm',
                     style: TextStyle(fontSize: 22.0),
                   ),
-                  color: Color.fromRGBO(255, 207, 0, 1.0),
+                  style: ButtonStyle(backgroundColor:MaterialStatePropertyAll(Color.fromARGB(255,255, 207, 0))),
+                  
                   onPressed: click,
                   materialTapTargetSize: MaterialTapTargetSize.padded,
                 ),

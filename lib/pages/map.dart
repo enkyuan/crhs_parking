@@ -107,10 +107,13 @@ class _MapState extends State<Map> {
           child: ButtonTheme(
             height: 70,
             child: ElevatedButton(
-              shape: RoundedRectangleBorder(
+              style: TextButton.styleFrom(//This might work but stackoverflow so idk
+                elevation: 0,
+                backgroundColor: Color.fromRGBO(236, 239, 241, 1),//might not be background color
+                shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(17),
+                ),
               ),
-              elevation: 0,
               child: Row(
                 children: [
                   Text(
@@ -126,7 +129,7 @@ class _MapState extends State<Map> {
                   )
                 ],
               ),
-              color: Color.fromRGBO(236, 239, 241, 1),
+              //color: Color.fromRGBO(236, 239, 241, 1), it was like this but im moving it into the style 
               onPressed: () {
                 Navigator.push(context, CupertinoPageRoute(builder: (context) => Spots(spot)));
               },
