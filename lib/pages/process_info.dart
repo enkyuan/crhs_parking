@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'change_info.dart';
-import 'package:crhs_parking_app/models/user.dart';
 
 DateTime birth;
 DateTime licenseExpiration;
@@ -38,8 +37,8 @@ class _ProcessState extends State<Process> {
   }
 
   void getUser() async {
-    FirebaseUser getUser = await FirebaseAuth.instance.currentUser();
-    DocumentSnapshot userData = await Firestore.instance.collection('users').document(getUser.uid).get();
+    User getUser = await FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(getUser.uid).get();
     currentStudent = User.fromSnapshot(userData);
     setState(() {
 
@@ -50,14 +49,13 @@ class _ProcessState extends State<Process> {
   Widget build(BuildContext context) {
     if(currentStudent!=null) {
       return FutureBuilder(
-        future: Firestore.instance.collection('spots').document(currentStudent.spotuid).get(),
+        future: FirebaseFirestore.instance.collection('spots').doc(currentStudent.spotuid).get(),
         builder: (context, snapshots) {
           if(snapshots.data!=null) {
             birth = snapshots.data['birth'].toDate();
             licenseExpiration = snapshots.data['licenseExpiration'].toDate();
             insuranceExpiration = snapshots.data['insuranceExpiration'].toDate();
             payCash = snapshots.data['isCash'];
-
             firstSave = snapshots.data['first'];
             lastSave = snapshots.data['last'];
             gradeSave = snapshots.data['grade'].toString();

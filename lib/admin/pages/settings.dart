@@ -1,4 +1,3 @@
-import 'package:crhs_parking_app/login/google_sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:crhs_parking_app/admin/login/auth.dart';
 import 'package:crhs_parking_app/admin/login/google_sign_in.dart';
@@ -44,7 +43,7 @@ class _SettingsState extends State<Settings> {
                 width: 10,
               ),
               Container(
-                child: FlatButton(
+                child: TextButton(
                   child: Container(
                     width: MediaQuery.of(context).size.width-50,
                     child: Row(
@@ -66,15 +65,17 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                   onPressed: () async {
-                    if (await canLaunch('https://forms.gle/NcPZGGcLJKaFFEEh7')) {
-                      await launch('https://forms.gle/NcPZGGcLJKaFFEEh7');
+                    if (await canLaunchUrl('https://forms.gle/NcPZGGcLJKaFFEEh7' as Uri)) {
+                      await launchUrl('https://forms.gle/NcPZGGcLJKaFFEEh7' as Uri);
                     }
                     else {
 
                     }
                   },
-                  splashColor: Color.fromRGBO(79, 195, 247, 1),
-                  highlightColor: Color.fromRGBO(129, 212, 250, 1),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(79, 195, 247, 1),  // Button color
+                    foregroundColor: Color.fromRGBO(129, 212, 250, 1),   // Splash color
+                  ),
                 ),
               ),
             ],
@@ -85,7 +86,7 @@ class _SettingsState extends State<Settings> {
                 width: 10,
               ),
               Container(
-                child: FlatButton(
+                child: TextButton(
                   child: Container(
                     width: MediaQuery.of(context).size.width-50,
                     child: Row(
@@ -108,10 +109,12 @@ class _SettingsState extends State<Settings> {
                   ),
                   onPressed: () {
                     adminAuthService.signOut();
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AdminSignin()),ModalRoute.withName('/pages'));
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => AdminSignin()), ModalRoute.withName('/pages'));
                   },
-                  splashColor: Color.fromRGBO(239, 154, 154, 1),
-                  highlightColor: Color.fromRGBO(255, 205, 210, 1),
+                  style: TextButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(239, 154, 154, 1),  // Button color
+                    foregroundColor: Color.fromRGBO(255, 205, 210, 1),  // Splash color
+                  ),
                 ),
               ),
             ],

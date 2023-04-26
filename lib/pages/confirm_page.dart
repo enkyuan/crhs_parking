@@ -103,14 +103,16 @@ class _ConfirmPageState extends State<ConfirmPage> {
                 margin: EdgeInsets.all(25.0),
               ),
               Container(
-                child: RaisedButton(
+                child: ElevatedButton(
                   child: Text(
                     'Confirm',
                     style: TextStyle(fontSize: 22.0),
                   ),
-                  color: Color.fromRGBO(255, 207, 0, 1.0),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:  Color.fromRGBO(255, 207, 0, 1.0),
+                  ),
                   onPressed: click,
-                  materialTapTargetSize: MaterialTapTargetSize.padded,
+                  // materialTapTargetSize: MaterialTapTargetSize.padded,
                 ),
                 padding: EdgeInsets.all(15.0),
               ),

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:crhs_parking_app/pages/navigation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 import 'auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +13,6 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-
   VideoPlayerController videoPlayerController;
   Future<void> _initializeVideoPlayerFuture;
 
@@ -55,8 +51,7 @@ class _SigninState extends State<Signin> {
                       ),
                     ),
                   );
-                }
-                else {
+                } else {
                   return Container(
                     color: Colors.black,
                   );
@@ -70,7 +65,7 @@ class _SigninState extends State<Signin> {
           Column(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height/8,
+                height: MediaQuery.of(context).size.height / 8,
               ),
               Row(
                 children: <Widget>[
@@ -93,9 +88,14 @@ class _SigninState extends State<Signin> {
                     width: 20,
                   ),
                   Container(
-                    child: Text('Welcome',
+                    child: Text(
+                      'Welcome',
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>=16/9 ? MediaQuery.of(context).size.width/8 : 50,
+                        fontSize: MediaQuery.of(context).size.height /
+                                    MediaQuery.of(context).size.width >=
+                                16 / 9
+                            ? MediaQuery.of(context).size.width / 8
+                            : 50,
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                       ),
@@ -109,9 +109,14 @@ class _SigninState extends State<Signin> {
                     width: 20,
                   ),
                   Container(
-                    child: Text('Sign in',
+                    child: Text(
+                      'Sign in',
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>=16/9 ? MediaQuery.of(context).size.width/12 : 35,
+                        fontSize: MediaQuery.of(context).size.height /
+                                    MediaQuery.of(context).size.width >=
+                                16 / 9
+                            ? MediaQuery.of(context).size.width / 12
+                            : 35,
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
                       ),
@@ -125,9 +130,14 @@ class _SigninState extends State<Signin> {
                     width: 20,
                   ),
                   Container(
-                    child: Text('with your KatyISD Account',
+                    child: Text(
+                      'with your KatyISD Account',
                       style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height/MediaQuery.of(context).size.width>=16/9 ? MediaQuery.of(context).size.width/20 : 20,
+                        fontSize: MediaQuery.of(context).size.height /
+                                    MediaQuery.of(context).size.width >=
+                                16 / 9
+                            ? MediaQuery.of(context).size.width / 20
+                            : 20,
                         color: Colors.white,
                         fontWeight: FontWeight.w300,
                       ),
@@ -146,7 +156,8 @@ class _SigninState extends State<Signin> {
                   onPressed: () async {
                     await authService.googleSignIn().catchError((onError) {
                       print(onError.toString());
-                      if(onError.toString()=='PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
+                      if (onError.toString() ==
+                          'PlatformException(sign_in_failed, com.google.android.gms.common.api.ApiException: 12500: , null)') {
                         showDialog(
                             context: context,
                             barrierDismissible: true,
@@ -155,21 +166,24 @@ class _SigninState extends State<Signin> {
                                 title: Text('Error'),
                                 content: Text('Cannot Sign in with Google'),
                               );
-                            }
-                        );
+                            });
                       }
                     });
                     String uid;
                     String email;
-                    await FirebaseAuth.instance.currentUser().then((currentUser) {
-                      uid = currentUser.uid;
-                      email = currentUser.email;
-                    });
-                    DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(uid).get();
-                    if(email.endsWith('@students.katyisd.org')){
-                      Navigator.of(context).pushAndRemoveUntil(CupertinoPageRoute(builder: (context) => Navigation()),ModalRoute.withName('/login'));
-                    }
-                    else {
+                    await FirebaseAuth.instance.currentUser;
+                    // uid = currentUser.uid;
+                    // email = currentUser.email;
+                    DocumentSnapshot userDoc = await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(uid)
+                        .get();
+                    if (email.endsWith('@students.katyisd.org')) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          CupertinoPageRoute(
+                              builder: (context) => Navigation()),
+                          ModalRoute.withName('/login'));
+                    } else {
                       print('invalid account');
                       FirebaseAuth.instance.signOut();
                       authService.signOut();
@@ -181,8 +195,7 @@ class _SigninState extends State<Signin> {
                               title: Text('Error'),
                               content: Text('Use your KatyISD Google Account'),
                             );
-                          }
-                      );
+                          });
                     }
                   },
                 ),
@@ -240,14 +253,14 @@ class Users extends StatefulWidget {
 }
 
 class _UsersState extends State<Users> {
-  Map<String,dynamic> _profile;
+  Map<String, dynamic> _profile;
   bool _loading = false;
 
   @override
   void initState() {
     super.initState();
     authService.profile.listen((state) => setState(() => _profile = state));
-    
+
     authService.loading.listen((state) => setState(() => _loading = state));
   }
 

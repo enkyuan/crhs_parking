@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationLeft.dart';
 import 'package:crhs_parking_app/animations/FadeAnimationStatic.dart';
 import 'package:crhs_parking_app/admin/pages/info_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WaitingList extends StatefulWidget {
   @override
@@ -22,7 +21,7 @@ class _WaitingListState extends State<WaitingList> {
     return Scaffold(
       body: Container(
         child: StreamBuilder(
-          stream: Firestore.instance.collection('spots').snapshots(),
+          stream: FirebaseFirestore.instance.collection('spots').snapshots(),
           builder: (context, snapshots) {
             if(!snapshots.hasData) {
               return Scaffold(
@@ -104,7 +103,7 @@ class _WaitingListState extends State<WaitingList> {
                                   children: <Widget>[
                                     FadeAnimationLeft(
                                       1+i*0.2,
-                                      FlatButton(
+                                      TextButton(
                                         child: Container(
                                           width: MediaQuery.of(context).size.width,
                                           child: Row(

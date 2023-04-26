@@ -187,7 +187,7 @@ class _SpotsState extends State<Spots> {
           Expanded(
             child: Container(
               child: StreamBuilder(
-                stream: Firestore.instance.collection('spots').snapshots(),
+                stream: FirebaseFirestore.instance.collection('spots').snapshots(),
                 builder: (context, snap) {
                   if(!snap.hasData) {
                     return Scaffold(
@@ -326,31 +326,31 @@ class _SpotsState extends State<Spots> {
                                         ),
                                         onTap: () async {
                                           if(!isOccupied) {
-                                            FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                                            DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(currentUser.uid).get();
-                                            if(userDoc.data['spotuid']!='none') {
-                                              DocumentReference currentSpotDoc = await Firestore.instance.collection('spots').document(userDoc.data['spotuid']);
-                                              currentSpotDoc.setData({
+                                            User currentUser = await FirebaseAuth.instance.currentUser;
+                                            DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+                                            if((userDoc.data as DocumentSnapshot)['spotuid']!='none') {
+                                              DocumentReference currentSpotDoc = await FirebaseFirestore.instance.collection('spots').doc((userDoc.data as DocumentSnapshot)['spotuid']);
+                                              currentSpotDoc.set({
                                                 'spot': spotSearch[i],
                                                 'confirmed': false,
                                                 'userid': currentUser.uid,
-                                              }, merge: true);
+                                              }, SetOptions(merge: true));
                                               Navigator.of(context).push(
                                                 MaterialPageRoute(builder: (context) => Navigation()),
                                               );
                                             }
                                             else {
-                                              DocumentReference spotDoc = await Firestore.instance.collection('spots').document();
-                                              spotDoc.setData({
+                                              DocumentReference spotDoc = await FirebaseFirestore.instance.collection('spots').doc();
+                                              spotDoc.set({
                                                 'spot': spotSearch[i],
                                                 'completed': false,
                                                 'confirmed': false,
                                                 'userid': currentUser.uid,
                                                 'submitDate': DateTime.now(),
-                                              }, merge: true);
-                                              await Firestore.instance.collection('users').document(currentUser.uid).setData({
-                                                'spotuid': spotDoc.documentID,
-                                              }, merge: true);
+                                              }, SetOptions(merge: true));
+                                              await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).set({
+                                                'spotuid': spotDoc.id,
+                                              }, SetOptions(merge: true));
                                               Navigator.of(context).push(
                                                 CupertinoPageRoute(builder: (context) => InfoSubmit(spotDoc)),
                                               );

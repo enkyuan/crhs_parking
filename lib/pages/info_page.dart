@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:crhs_parking_app/models/user.dart';
 import 'map.dart';
 
 class InfoPage extends StatefulWidget {
@@ -28,8 +27,8 @@ class _InfoPageState extends State<InfoPage> {
   }
 
   void getUser() async {
-    FirebaseUser getUser = await FirebaseAuth.instance.currentUser();
-    DocumentSnapshot userData = await Firestore.instance.collection('users').document(getUser.uid).get();
+    User getUser = await FirebaseAuth.instance.currentUser;
+    DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(getUser.uid).get();
     _uid = getUser.uid;
     currentStudent = User.fromSnapshot(userData);
     setState(() {
@@ -62,7 +61,7 @@ class _InfoPageState extends State<InfoPage> {
     else{
       return Scaffold(
         body: StreamBuilder(
-          stream: Firestore.instance.collection('users').document(_uid).snapshots(),
+          stream: FirebaseFirestore.instance.collection('users').doc(_uid).snapshots(),
           builder: (context, snapshot) {
             if(!snapshot.hasData) {
               return Scaffold(
@@ -121,7 +120,7 @@ class _InfoPageState extends State<InfoPage> {
                                               width: 95,
                                               height: 95,
                                               child: ClipRRect(
-                                                child: Image.network(currentStudent.url),
+                                                child: Image.network(currentStudent.uid),
                                                 borderRadius: BorderRadius.circular(45),
                                               ),
                                             ),
@@ -236,7 +235,7 @@ class _InfoPageState extends State<InfoPage> {
               }
               else{
                 return FutureBuilder(
-                  future: Firestore.instance.collection('spots').document(snapshot.data['spotuid']).get(),
+                  future: FirebaseFirestore.instance.collection('spots').doc(snapshot.data['spotuid']).get(),
                   builder: (context, spotData) {
                     if(spotData.hasData) {
                       if(!spotData.data['completed']) {
@@ -284,7 +283,7 @@ class _InfoPageState extends State<InfoPage> {
                                                       width: 95,
                                                       height: 95,
                                                       child: ClipRRect(
-                                                        child: Image.network(currentStudent.url),
+                                                        child: Image.network(currentStudent.uid),
                                                         borderRadius: BorderRadius.circular(45),
                                                       ),
                                                     ),
@@ -367,7 +366,7 @@ class _InfoPageState extends State<InfoPage> {
                                               ],
                                             ),
                                             onTap: () {
-                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
+                                              DocumentReference spotRef = FirebaseFirestore.instance.collection('spots').doc(snapshot.data['spotuid']);
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(builder: (context) => InfoSubmit(spotRef))
                                               );
@@ -376,9 +375,11 @@ class _InfoPageState extends State<InfoPage> {
                                           Container(
                                             height: 50,
                                           ),
-                                          RaisedButton(
-                                            splashColor: Colors.transparent,
-                                            color: Colors.transparent,
+                                          ElevatedButton(
+                                            style: TextButton.styleFrom(
+                                              backgroundColor: Colors.transparent,  // Button color
+                                              foregroundColor: Colors.transparent,   // Splash color
+                                            ),
                                             child: Container(
                                               height: 60,
                                               child: FadeAnimationStatic(
@@ -418,7 +419,7 @@ class _InfoPageState extends State<InfoPage> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              DocumentReference spotRef = Firestore.instance.collection('spots').document(snapshot.data['spotuid']);
+                                              DocumentReference spotRef = FirebaseFirestore.instance.collection('spots').doc(snapshot.data['spotuid']);
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(builder: (context) => Map())
                                               );
@@ -500,7 +501,7 @@ class _InfoPageState extends State<InfoPage> {
                                                       width: 95,
                                                       height: 95,
                                                       child: ClipRRect(
-                                                        child: Image.network(currentStudent.url),
+                                                        child: Image.network(currentStudent.uid),
                                                         borderRadius: BorderRadius.circular(45),
                                                       ),
                                                     ),
@@ -767,7 +768,7 @@ class _InfoPageState extends State<InfoPage> {
                                                       width: 95,
                                                       height: 95,
                                                       child: ClipRRect(
-                                                        child: Image.network(currentStudent.url),
+                                                        child: Image.network(currentStudent.uid),
                                                         borderRadius: BorderRadius.circular(45),
                                                       ),
                                                     ),

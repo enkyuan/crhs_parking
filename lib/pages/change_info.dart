@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:validators/sanitizers.dart';
 import 'navigation.dart';
@@ -119,7 +118,7 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
@@ -221,7 +220,7 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
@@ -278,7 +277,7 @@ class _InfoChangeState extends State<InfoChange> {
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       width: (MediaQuery.of(context).size.width-20)/2,
-                      child: FlatButton(
+                      child: TextButton(
                         child: Row(
                           children: [
                             Text(
@@ -327,11 +326,11 @@ class _InfoChangeState extends State<InfoChange> {
                         initialLabelIndex: payCash ? 0 : 1,
                         minWidth: (MediaQuery.of(context).size.width-20)/4.0,
                         cornerRadius: 5,
-                        activeTextColor: Colors.white,
+                        activeFgColor: Colors.white,
                         inactiveBgColor: Colors.grey,
-                        inactiveTextColor: Colors.white,
+                        inactiveFgColor: Colors.white,
                         labels: ['Cash', 'Check'],
-                        activeColors: [Colors.green, Colors.blue],
+                        activeBgColors: [Colors.green, Colors.blue],
                         onToggle: (index) {
                           if (index == 0) {
                             payCash = true;
@@ -394,10 +393,10 @@ class _InfoChangeState extends State<InfoChange> {
                         year.text!=''&&
                         plate.text!=''&&
                         driver.text!='') {
-                      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                      DocumentSnapshot userDoc = await Firestore.instance.collection('users').document(currentUser.uid).get();
-                      DocumentReference reference = Firestore.instance.collection('spots').document(userDoc.data['spotuid']);
-                      await reference.setData({
+                      User currentUser = await FirebaseAuth.instance.currentUser;
+                      DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+                      DocumentReference reference = FirebaseFirestore.instance.collection('spots').doc((userDoc.data as DocumentSnapshot)['spotuid']);
+                      await reference.set({
                         'first': first.text.substring(0, 1).toUpperCase()+first.text.substring(1),
                         'last': last.text.substring(0, 1).toUpperCase()+last.text.substring(1),
                         'grade': toInt(grade.text),
@@ -417,7 +416,7 @@ class _InfoChangeState extends State<InfoChange> {
                         'confirmed': false,
                         'completed': true,
                         'userid': currentUser.uid,
-                      }, merge: true);
+                      }, SetOptions(merge: true));
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
                     }
                     else {
@@ -446,122 +445,125 @@ class _InfoChangeState extends State<InfoChange> {
 
   Widget FieldGen (String hint, TextInputType type, TextEditingController controller) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
 
+      ),
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+        keyboardType: type,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
             hintStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.black
+              fontSize: 18,
+              color: Colors.black
             ),
             border: InputBorder.none,
 
-          ),
-        ));
+        ),
+      )
+    );
   }
 
   Widget FieldGenMax (String hint, TextInputType type, TextEditingController controller, int max) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
-
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
+      ),
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        maxLength: max,
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          maxLength: max,
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            counterText: '',
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+        keyboardType: type,
+        decoration: InputDecoration(
+          counterText: '',
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
             hintStyle: TextStyle(
-                fontSize: 18,
-                color: Colors.black
+              fontSize: 18,
+              color: Colors.black
             ),
             border: InputBorder.none,
 
-          ),
-        ));
+        ),
+      )
+    );
   }
 
   Widget FieldGenSmall (String hint, TextInputType type, TextEditingController controller) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
+      ),
 
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
-          ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
+        keyboardType: type,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
             hintText: " " + hint,
             hintStyle: TextStyle(
-                fontSize: 13,
-                color: Colors.black
-            ),
-            border: InputBorder.none,
-
+              fontSize: 13,
+              color: Colors.black
           ),
-        ));
+
+          border: InputBorder.none,
+        ),
+      )
+    );
   }
 
-  Widget FieldGenMaxSmall (String hint, TextInputType type, TextEditingController controller, int max) {
+  Widget FieldGenMaxSmall(String hint, TextInputType type, TextEditingController controller, int max) {
     return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(5))
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5))
 
+      ),
+      width: (MediaQuery.of(context).size.width - 20) / 2,
+      child: TextField(
+        maxLength: max,
+        controller: controller,
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.black,
         ),
-        width: (MediaQuery.of(context).size.width-20)/2,
-        child: TextField(
-          maxLength: max,
-          controller: controller,
-          style: TextStyle(
-            fontSize: 18,
-            color: Colors.black,
+        keyboardType: type,
+        decoration: InputDecoration(
+          counterText: '',
+          contentPadding: const EdgeInsets.only(
+            top: 8.0, bottom: 8.0, left: 10.0, right: 10.0
           ),
-          keyboardType: type,
-          decoration: InputDecoration(
-            counterText: '',
-            contentPadding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 10.0, right: 10.0),
-            hintText: " " + hint,
-            hintStyle: TextStyle(
-                fontSize: 13,
-                color: Colors.black
-            ),
-            border: InputBorder.none,
+          hintText: " " + hint,
+          hintStyle: TextStyle(
+            fontSize: 13,
+            color: Colors.black
+          ),
 
+          border: InputBorder.none,
           ),
-        ));
+      )
+    );
   }
-
 }

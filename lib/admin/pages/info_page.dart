@@ -1,9 +1,7 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class SpotInfo extends StatefulWidget {
   DocumentSnapshot reference;
@@ -30,7 +28,7 @@ class _SpotInfoState extends State<SpotInfo> {
               width: 10,
             ),
             Container(
-              width: MediaQuery.of(context).size.width-10,
+              width: MediaQuery.of(context).size.width - 10,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -38,7 +36,7 @@ class _SpotInfoState extends State<SpotInfo> {
                     '${widget.reference.data['first']} ${widget.reference.data['last']}',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*60,
+                      fontSize: (10*log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 60,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -46,7 +44,7 @@ class _SpotInfoState extends State<SpotInfo> {
                     'Spot ${widget.reference.data['spot']}',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*40,
+                      fontSize: (10*log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 40,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -56,7 +54,7 @@ class _SpotInfoState extends State<SpotInfo> {
                         'Paying With ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*30,
+                          fontSize: (10 * log(MediaQuery.of(context).size.width + 5) - 7)/64 * 30,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -64,7 +62,7 @@ class _SpotInfoState extends State<SpotInfo> {
                         '${widget.reference.data['isCash'] ? 'Cash' : 'Check'}',
                         style: TextStyle(
                           color: widget.reference.data['isCash'] ? Colors.green : Colors.blue,
-                          fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*30,
+                          fontSize: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 30,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -74,7 +72,7 @@ class _SpotInfoState extends State<SpotInfo> {
                     child: ListView(
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(bottom: (10*log(MediaQuery.of(context).size.width+5)-7)/64*15),
+                          padding: EdgeInsets.only(bottom: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 15),
                           child: Container(
                             child: Column(
                               children: <Widget>[
@@ -82,16 +80,16 @@ class _SpotInfoState extends State<SpotInfo> {
                                   children: [
                                     Icon(
                                       Icons.person,
-                                      size: (10*log(MediaQuery.of(context).size.width+5)-7)/64*50,
+                                      size: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 50,
                                     ),
                                     Container(
-                                      width: (10*log(MediaQuery.of(context).size.width+5)-7)/64*10,
+                                      width: (10 * log(MediaQuery.of(context).size.width+5) - 7) / 64 * 10,
                                     ),
                                     Expanded(
                                       child: Text(
                                         'Personal Information',
                                         style: TextStyle(
-                                            fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*30,
+                                            fontSize: (10*log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 30,
                                             fontWeight: FontWeight.w400
                                         ),
                                       ),
@@ -101,13 +99,13 @@ class _SpotInfoState extends State<SpotInfo> {
                                 Row(
                                   children: <Widget>[
                                     Container(
-                                      width: (10*log(MediaQuery.of(context).size.width+5)-7)/64*8,
+                                      width: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 8,
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Container(
-                                          height: (10*log(MediaQuery.of(context).size.width+5)-7)/64*10,
+                                          height: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 10,
                                         ),
                                         StudentInfo('Student ID: ${widget.reference.data['schoolID']}'),
                                         StudentInfo('Grade: ${widget.reference.data['grade']}'),
@@ -144,7 +142,7 @@ class _SpotInfoState extends State<SpotInfo> {
                                       child: Text(
                                         'Vehicle and Road Traffic Identification',
                                         style: TextStyle(
-                                            fontSize: (10*log(MediaQuery.of(context).size.width+5)-7)/64*30,
+                                            fontSize: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 30,
                                             fontWeight: FontWeight.w400
                                         ),
                                       ),
@@ -154,13 +152,13 @@ class _SpotInfoState extends State<SpotInfo> {
                                 Row(
                                   children: <Widget>[
                                     Container(
-                                      width: (10*log(MediaQuery.of(context).size.width+5)-7)/64*8,
+                                      width: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 8,
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Container(
-                                          height: (10*log(MediaQuery.of(context).size.width+5)-7)/64*10,
+                                          height: (10 * log(MediaQuery.of(context).size.width + 5) - 7) / 64 * 10,
                                         ),
                                         StudentInfo('Make/Model: ${widget.reference.data['model']}'),
                                         StudentInfo('Color: ${widget.reference.data['color']}'),
@@ -212,15 +210,15 @@ class _SpotInfoState extends State<SpotInfo> {
                               ),
                             ),
                             onTap: () async {
-                              Firestore.instance.collection('spots').document(widget.reference.documentID).setData({
+                              FirebaseFirestore.instance.collection('spots').doc(widget.reference.id).set({
                                 'confirmed': true,
-                              }, merge: true);
-                              FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
-                              Firestore.instance.collection('admin').document(currentUser.uid).collection('history').document('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').setData({
+                              }, SetOptions(merge: true));
+                              User currentUser = await FirebaseAuth.instance.currentUser;
+                              FirebaseFirestore.instance.collection('admin').doc(currentUser.uid).collection('history').doc('${DateTime.now().year}${DateTime.now().month}${DateTime.now().day}${DateTime.now().second}${DateTime.now().millisecond}').set({
                                 'time': DateTime.now(),
-                                'documentID': widget.reference.documentID,
+                                'documentID': widget.reference.id,
                                 'action': 'confirm',
-                              }, merge: true);
+                              }, SetOptions(merge: true));
                               showDialog(
                                   context: context,
                                   builder: (context) {

@@ -13,7 +13,7 @@ class User {
   User({this.name, this.email, this.uid, this.url, this.spotuid, this.reference});
 
   factory User.fromSnapshot(DocumentSnapshot snapshot) {
-    User newUser = User.fromJson(snapshot.data);
+    User newUser = User.fromJson(snapshot.data as Map<String, dynamic>);
     newUser.reference = snapshot.reference;
     return newUser;
   }
@@ -37,5 +37,4 @@ class User {
       'uid': instance.uid,
     };
   }
-
 }
